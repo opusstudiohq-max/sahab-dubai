@@ -1,0 +1,11 @@
+# أصول التوليد الأصلية (غير مضغوطة) — لا تُرفع
+assets/_originals/
+
+# ملفات نظام
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# أدوات مؤقتة
+_review/
+node_modules/
