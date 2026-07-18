@@ -5,6 +5,8 @@
 **Live:** https://opusstudiohq-max.github.io/sahab-dubai/
 **Repo:** https://github.com/opusstudiohq-max/sahab-dubai
 
+**النسخ:** الموقع يدعم لغتين — الإنجليزية في `/` والعربية في `/ar/`، مع تبديل لغة من الناف.
+
 ## التشغيل
 
 - **الأسرع:** افتح `index.html` مباشرة في المتصفح.

@@ -74,8 +74,12 @@ for (const page of PAGES) {
       const spacing = await p.evaluate(() => {
         const bad = [];
         document.querySelectorAll('body *').forEach((el) => {
-          const ls = getComputedStyle(el).letterSpacing;
-          if (ls !== 'normal' && ls !== '0.96px' && ls !== '0px' && el.textContent.trim()) bad.push(`${el.tagName}.${String(el.className).split(' ')[0]}:${ls}`);
+          const style = getComputedStyle(el);
+          const ls = style.letterSpacing;
+          const fs = parseFloat(style.fontSize);
+          const lsPx = parseFloat(ls);
+          const is06em = !isNaN(lsPx) && !isNaN(fs) && Math.abs(lsPx - fs * 0.06) < 0.1;
+          if (ls !== 'normal' && ls !== '0px' && !is06em && el.textContent.trim()) bad.push(`${el.tagName}.${String(el.className).split(' ')[0]}:${ls}`);
         });
         return bad.slice(0, 8);
       });
