@@ -1039,7 +1039,6 @@ html.no-motion .hero__video { display: none; }
   .hero__loc { display: none; }
   .hero__content { margin-top: 0; }
   .hero__sub { font-size: 0.95rem; }
-  .story__stats { gap: 1.4rem 2.2rem; }
   .reserve__form { grid-template-columns: 1fr; }
   .tasting__list li { flex-wrap: wrap; }
   .tasting__list li::before { width: auto; margin-inline-end: 0.6rem; }
