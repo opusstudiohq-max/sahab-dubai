@@ -1069,3 +1069,16 @@ html.no-motion .hero__video { display: none; }
   .hero__scroll { display: none; }
 }
 
+/* ── RTL (Arabic) ── */
+html[dir="rtl"] body { font-family: "Tajawal", var(--font-body); }
+html[dir="rtl"] .h2, html[dir="rtl"] .hero__title, html[dir="rtl"] .dish__name,
+html[dir="rtl"] .tasting__course, html[dir="rtl"] .reserve__details dd,
+html[dir="rtl"] .footer__logo, html[dir="rtl"] .voice p { font-family: var(--font-ar); }
+html[dir="rtl"] * { letter-spacing: normal; }
+html[dir="rtl"] .eyebrow, html[dir="rtl"] .nav__logo-city, html[dir="rtl"] .btn { letter-spacing: 0.06em; }
+html[dir="rtl"] .dishes__track { direction: ltr; }
+html[dir="rtl"] .dish, html[dir="rtl"] .dishes__end { direction: rtl; text-align: right; }
+html[dir="rtl"] .dish__num { right: auto; left: 1.6rem; }
+html[dir="rtl"] .hero__loc { left: auto; right: calc(clamp(1.4rem,4vw,3.4rem) + env(safe-area-inset-right)); }
+html[dir="rtl"] .dishes__hint span { transform: scaleX(-1); display: inline-block; }
+html[dir="rtl"] .skip-link { left: auto; right: 1.2rem; }
