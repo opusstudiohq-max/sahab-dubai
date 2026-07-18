@@ -2,6 +2,9 @@
 
 صفحة هبوط فاخرة (Landing Page) لمطعم فاين داينينج شامي مودرن في دبي — قطعة بورتفوليو.
 
+**Live:** https://opusstudiohq-max.github.io/sahab-dubai/
+**Repo:** https://github.com/opusstudiohq-max/sahab-dubai
+
 ## التشغيل
 
 - **الأسرع:** افتح `index.html` مباشرة في المتصفح.
