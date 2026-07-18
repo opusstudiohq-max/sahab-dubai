@@ -49,6 +49,18 @@
     form.reset();
   });
 
+  // Hide fixed mobile CTA once the reservation section is in view
+  var mobileCta = document.querySelector(".mobile-cta");
+  if (mobileCta && "IntersectionObserver" in window) {
+    var reserveTarget = document.getElementById("reserve");
+    if (reserveTarget) {
+      var ctaObserver = new IntersectionObserver(function (entries) {
+        mobileCta.classList.toggle("is-hidden", entries[0].isIntersecting);
+      }, { threshold: 0.15 });
+      ctaObserver.observe(reserveTarget);
+    }
+  }
+
   /* ── No-motion path: show everything, native anchors ──── */
   if (!motionOK) {
     document.documentElement.classList.add("no-motion");
@@ -72,16 +84,21 @@
   gsap.registerPlugin(ScrollTrigger);
 
   // Hero video: fade in over the still image once it can play;
-  // remove itself silently if the file is missing or data is saved.
+  // remove itself silently if the file is missing, data is saved, or viewport is narrow.
   var heroVideo = document.getElementById("hero-video");
   if (heroVideo) {
     var saveData = !!(navigator.connection && navigator.connection.saveData);
-    if (saveData) {
-      heroVideo.remove();
-    } else {
+    if (window.innerWidth >= 768 && !saveData) {
+      var source = heroVideo.querySelector("source");
+      if (source && source.dataset.src) {
+        source.src = source.dataset.src;
+        heroVideo.load();
+      }
       heroVideo.addEventListener("loadeddata", function () { heroVideo.classList.add("is-ready"); });
       heroVideo.addEventListener("error", function () { heroVideo.remove(); }, true);
       heroVideo.play().catch(function () { /* stays on the still image */ });
+    } else {
+      heroVideo.remove();
     }
   }
 
@@ -178,11 +195,13 @@
   var nav = document.getElementById("nav");
   var lastY = 0;
   lenis.on("scroll", function (e) {
-    var y = e.scroll;
-    nav.classList.toggle("nav--scrolled", y > 60);
-    if (y > 480 && y > lastY + 4) nav.classList.add("nav--hidden");
-    else if (y < lastY - 4) nav.classList.remove("nav--hidden");
-    lastY = y;
+    if (!mmenu.classList.contains("is-open")) {
+      var y = e.scroll;
+      nav.classList.toggle("nav--scrolled", y > 60);
+      if (y > 480 && y > lastY + 4) nav.classList.add("nav--hidden");
+      else if (y < lastY - 4) nav.classList.remove("nav--hidden");
+      lastY = y;
+    }
   });
 
   /* ── Section reveals ─────────────────────────────────── */

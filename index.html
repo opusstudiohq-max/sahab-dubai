@@ -16,7 +16,11 @@
   <meta name="twitter:description" content="Fire-kissed Levantine cuisine, fifty-two floors above Downtown Dubai.">
   <meta name="twitter:image" content="https://opusstudiohq-max.github.io/sahab-dubai/assets/img/hero.jpg">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23C6A15B' d='M16 2l3.2 9.4L28 8l-5.4 8 5.4 8-8.8-3.4L16 30l-3.2-9.4L4 24l5.4-8L4 8l8.8 3.4z'/%3E%3C/svg%3E">
+  <link rel="preload" as="image" href="assets/img/hero.jpg">
   <link rel="preload" href="assets/fonts/marcellus-400-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="alternate" hreflang="en" href="https://opusstudiohq-max.github.io/sahab-dubai/">
+  <link rel="alternate" hreflang="ar" href="https://opusstudiohq-max.github.io/sahab-dubai/ar/">
+  <link rel="alternate" hreflang="x-default" href="https://opusstudiohq-max.github.io/sahab-dubai/">
   <link rel="stylesheet" href="css/fonts.css">
   <link rel="stylesheet" href="css/style.css">
   <script type="application/ld+json">
@@ -67,6 +71,7 @@
       <ul class="nav__links nav__links--left">
         <li><a href="#story" class="nav__link" data-scroll>Story</a></li>
         <li><a href="#menu" class="nav__link" data-scroll>Menu</a></li>
+        <li><a class="nav__link" href="ar/">عربي</a></li>
       </ul>
       <a href="#top" class="nav__logo" data-scroll aria-label="SAHAB Dubai — home">
         <span class="nav__logo-name">SAHAB</span>
@@ -89,6 +94,7 @@
       <a href="#menu" class="mmenu__link" data-scroll>Menu</a>
       <a href="#space" class="mmenu__link" data-scroll>Space</a>
       <a href="#reserve" class="mmenu__link" data-scroll>Reserve</a>
+      <a class="mmenu__link" href="ar/">عربي</a>
     </nav>
     <p class="mmenu__foot">Sky View Tower, Level 52 — Downtown Dubai</p>
   </div>
@@ -99,8 +105,8 @@
     <section class="hero" id="hero">
       <div class="hero__media">
         <img src="assets/img/hero.jpg" alt="The dining room of SAHAB at night — brass, arches and firelight above the Dubai skyline" fetchpriority="high">
-        <video class="hero__video" id="hero-video" autoplay muted loop playsinline preload="auto" aria-hidden="true" tabindex="-1">
-          <source src="assets/video/hero.mp4" type="video/mp4">
+        <video class="hero__video" id="hero-video" autoplay muted loop playsinline preload="none" aria-hidden="true" tabindex="-1">
+          <source data-src="assets/video/hero.mp4" type="video/mp4">
         </video>
       </div>
       <div class="hero__veil" aria-hidden="true"></div>
@@ -143,7 +149,7 @@
       <div class="container story__grid">
         <figure class="story__media" data-reveal>
           <div class="story__media-frame">
-            <img src="assets/img/chef.jpg" alt="Executive chef Karim Haddad finishing a dish over open fire" loading="lazy">
+            <img src="assets/img/chef.jpg" alt="Executive chef Karim Haddad finishing a dish over open fire" loading="lazy" decoding="async">
           </div>
           <figcaption>Executive Chef <b>Karim Haddad</b> — Aleppo &middot; Beirut &middot; Dubai</figcaption>
         </figure>
@@ -173,7 +179,7 @@
 
         <div class="dishes__track" id="dishes-track">
           <article class="dish">
-            <div class="dish__media"><img src="assets/img/dish-1.jpg" alt="Smoked hummus topped with wagyu beef shawarma and pine nuts" loading="lazy"></div>
+            <div class="dish__media"><img src="assets/img/dish-1.jpg" alt="Smoked hummus topped with wagyu beef shawarma and pine nuts" loading="lazy" decoding="async"></div>
             <span class="dish__num">01</span>
             <h3 class="dish__name">Smoked Hummus &amp; Wagyu</h3>
             <p class="dish__desc">Smoked chickpea, wagyu shawarma, pine nuts, brown butter</p>
@@ -181,7 +187,7 @@
           </article>
 
           <article class="dish">
-            <div class="dish__media"><img src="assets/img/dish-2.jpg" alt="Charcoal prawns glazed in Aleppo pepper butter" loading="lazy"></div>
+            <div class="dish__media"><img src="assets/img/dish-2.jpg" alt="Charcoal prawns glazed in Aleppo pepper butter" loading="lazy" decoding="async"></div>
             <span class="dish__num">02</span>
             <h3 class="dish__name">Charcoal Prawns, Aleppo Butter</h3>
             <p class="dish__desc">Lemon ash, wild garlic, grilled sourdough</p>
@@ -189,7 +195,7 @@
           </article>
 
           <article class="dish">
-            <div class="dish__media"><img src="assets/img/dish-3.jpg" alt="Zaatar-crusted lamb rack over freekeh with pomegranate jus" loading="lazy"></div>
+            <div class="dish__media"><img src="assets/img/dish-3.jpg" alt="Zaatar-crusted lamb rack over freekeh with pomegranate jus" loading="lazy" decoding="async"></div>
             <span class="dish__num">03</span>
             <h3 class="dish__name">Zaatar-Crusted Lamb Rack</h3>
             <p class="dish__desc">Freekeh, smoked labneh, pomegranate jus</p>
@@ -197,7 +203,7 @@
           </article>
 
           <article class="dish">
-            <div class="dish__media"><img src="assets/img/dish-4.jpg" alt="Wood-fired sea bass on sayadieh rice with burnt lemon" loading="lazy"></div>
+            <div class="dish__media"><img src="assets/img/dish-4.jpg" alt="Wood-fired sea bass on sayadieh rice with burnt lemon" loading="lazy" decoding="async"></div>
             <span class="dish__num">04</span>
             <h3 class="dish__name">Wood-Fired Sea Bass</h3>
             <p class="dish__desc">Sayadieh rice, tahini beurre blanc, burnt lemon</p>
@@ -205,7 +211,7 @@
           </article>
 
           <article class="dish">
-            <div class="dish__media"><img src="assets/img/dish-5.jpg" alt="Saffron knafeh with clotted cream and pistachio praline" loading="lazy"></div>
+            <div class="dish__media"><img src="assets/img/dish-5.jpg" alt="Saffron knafeh with clotted cream and pistachio praline" loading="lazy" decoding="async"></div>
             <span class="dish__num">05</span>
             <h3 class="dish__name">Saffron Knafeh</h3>
             <p class="dish__desc">Clotted cream, pistachio praline, orange blossom</p>
@@ -250,19 +256,19 @@
 
         <div class="space__grid">
           <figure class="space__fig space__fig--a" data-reveal>
-            <div class="space__frame"><img src="assets/img/interior-1.jpg" alt="The dining room — arched niches and mashrabiya shadows" loading="lazy" data-speed="0.9"></div>
+            <div class="space__frame"><img src="assets/img/interior-1.jpg" alt="The dining room — arched niches and mashrabiya shadows" loading="lazy" decoding="async" data-speed="0.9"></div>
             <figcaption><i>01</i>The dining room — mashrabiya shadows</figcaption>
           </figure>
           <figure class="space__fig space__fig--b" data-reveal>
-            <div class="space__frame"><img src="assets/img/interior-2.jpg" alt="Floor-to-ceiling window over the Downtown Dubai skyline at dusk" loading="lazy" data-speed="1.15"></div>
+            <div class="space__frame"><img src="assets/img/interior-2.jpg" alt="Floor-to-ceiling window over the Downtown Dubai skyline at dusk" loading="lazy" decoding="async" data-speed="1.15"></div>
             <figcaption><i>02</i>The view — Downtown from Level 52</figcaption>
           </figure>
           <figure class="space__fig space__fig--c" data-reveal>
-            <div class="space__frame"><img src="assets/img/interior-3.jpg" alt="The fire counter — eight seats around the open wood fire" loading="lazy" data-speed="1.05"></div>
+            <div class="space__frame"><img src="assets/img/interior-3.jpg" alt="The fire counter — eight seats around the open wood fire" loading="lazy" decoding="async" data-speed="1.05"></div>
             <figcaption><i>03</i>The fire counter — eight seats, one flame</figcaption>
           </figure>
           <figure class="space__fig space__fig--d" data-reveal>
-            <div class="space__frame"><img src="assets/img/interior-4.jpg" alt="Brass, walnut and firelight — details of the bar" loading="lazy" data-speed="0.95"></div>
+            <div class="space__frame"><img src="assets/img/interior-4.jpg" alt="Brass, walnut and firelight — details of the bar" loading="lazy" decoding="async" data-speed="0.95"></div>
             <figcaption><i>04</i>Brass, walnut &amp; firelight</figcaption>
           </figure>
         </div>
@@ -370,6 +376,8 @@
         </div>
       </div>
     </footer>
+
+  <a href="#reserve" class="mobile-cta" data-scroll>Reserve a Table</a>
 
   </main>
 
