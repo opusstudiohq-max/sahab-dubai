@@ -9,3 +9,5 @@ desktop.ini
 # أدوات مؤقتة
 _review/
 node_modules/
+tools/node_modules/
+tools/shots/
