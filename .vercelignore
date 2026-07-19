@@ -1,0 +1,8 @@
+# استبعاد ملفات لا يلزم رفعها للنشر
+.git
+assets/_originals
+tools/node_modules
+tools/shots
+node_modules
+_review
+*.log

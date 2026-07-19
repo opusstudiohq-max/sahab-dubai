@@ -16,13 +16,21 @@
   <meta name="twitter:description" content="سحاب — مائدة شامية حديثة على بُعد اثنين وخمسين طابقًا فوق داون تاون دبي.">
   <meta name="twitter:image" content="https://opusstudiohq-max.github.io/sahab-dubai/assets/img/hero.jpg">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath fill='%23C6A15B' d='M16 2l3.2 9.4L28 8l-5.4 8 5.4 8-8.8-3.4L16 30l-3.2-9.4L4 24l5.4-8L4 8l8.8 3.4z'/%3E%3C/svg%3E">
-  <link rel="preload" as="image" href="../assets/img/hero.jpg">
-  <link rel="preload" href="../assets/fonts/marcellus-400-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" as="image" type="image/avif" imagesrcset="../assets/img/hero-640.avif 640w, ../assets/img/hero-1024.avif 1024w, ../assets/img/hero-1600.avif 1600w, ../assets/img/hero-1920.avif 1920w" imagesizes="100vw" fetchpriority="high">
+  <link rel="preload" href="../assets/fonts/tajawal-500-normal-arabic.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="alternate" hreflang="en" href="https://opusstudiohq-max.github.io/sahab-dubai/">
   <link rel="alternate" hreflang="ar" href="https://opusstudiohq-max.github.io/sahab-dubai/ar/">
   <link rel="alternate" hreflang="x-default" href="https://opusstudiohq-max.github.io/sahab-dubai/">
   <link rel="stylesheet" href="../css/fonts.css">
   <link rel="stylesheet" href="../css/style.css">
+  <noscript>
+    <style>
+      /* No JS: the page must never sit behind JS-only layers */
+      .preloader { display: none !important; }
+      .cursor-dot, .cursor-ring { display: none !important; }
+      .mobile-cta { position: static; margin: 1rem var(--gutter); box-shadow: none; }
+    </style>
+  </noscript>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -60,18 +68,18 @@
       <span class="preloader__ar">سحاب</span>
       <span class="preloader__name">SAHAB</span>
       <span class="preloader__city">DUBAI</span>
+      <span class="preloader__line"></span>
     </div>
     <span class="preloader__count" id="preloader-count">00</span>
-    <span class="preloader__line"></span>
   </div>
 
   <!-- Navigation -->
   <header class="nav" id="nav">
-    <nav class="nav__inner">
+    <nav class="nav__inner" aria-label="التنقل الرئيسي">
       <ul class="nav__links nav__links--left">
         <li><a href="#story" class="nav__link" data-scroll>حكايتنا</a></li>
         <li><a href="#menu" class="nav__link" data-scroll>القائمة</a></li>
-        <li><a class="nav__link" href="../">EN</a></li>
+        <li><a class="nav__link" href="../">English</a></li>
       </ul>
       <a href="#top" class="nav__logo" data-scroll aria-label="SAHAB Dubai — الرئيسية">
         <span class="nav__logo-name">SAHAB</span>
@@ -79,9 +87,10 @@
       </a>
       <ul class="nav__links nav__links--right">
         <li><a href="#space" class="nav__link" data-scroll>المكان</a></li>
+        <li><span class="nav__status" id="nav-status"></span></li>
         <li><a href="#reserve" class="btn btn--outline btn--small magnetic" data-scroll><span>احجز</span></a></li>
       </ul>
-      <button class="nav__burger" id="nav-burger" aria-label="فتح القائمة" aria-expanded="false">
+      <button class="nav__burger" id="nav-burger" aria-label="فتح القائمة" aria-expanded="false" aria-controls="mmenu">
         <span></span><span></span>
       </button>
     </nav>
@@ -89,12 +98,12 @@
 
   <!-- Mobile menu -->
   <div class="mmenu" id="mmenu" aria-hidden="true">
-    <nav class="mmenu__nav">
+    <nav class="mmenu__nav" aria-label="قائمة الموبايل">
       <a href="#story" class="mmenu__link" data-scroll>حكايتنا</a>
       <a href="#menu" class="mmenu__link" data-scroll>القائمة</a>
       <a href="#space" class="mmenu__link" data-scroll>المكان</a>
       <a href="#reserve" class="mmenu__link" data-scroll>احجز</a>
-      <a class="mmenu__link" href="../">EN</a>
+      <a class="mmenu__link" href="../">English</a>
     </nav>
     <p class="mmenu__foot">سكاي فيو تاور، الطابق 52 — داون تاون دبي</p>
   </div>
@@ -104,15 +113,19 @@
     <!-- ══════════ HERO ══════════ -->
     <section class="hero" id="hero">
       <div class="hero__media">
-        <img src="../assets/img/hero.jpg" alt="قاعة طعام سحاب ليلًا — نحاس وأقواس وضوء نار فوق أفق دبي" fetchpriority="high">
-        <video class="hero__video" id="hero-video" autoplay muted loop playsinline preload="none" aria-hidden="true" tabindex="-1">
+        <picture>
+          <source type="image/avif" srcset="../assets/img/hero-640.avif 640w, ../assets/img/hero-1024.avif 1024w, ../assets/img/hero-1600.avif 1600w, ../assets/img/hero-1920.avif 1920w" sizes="100vw">
+          <source type="image/webp" srcset="../assets/img/hero-640.webp 640w, ../assets/img/hero-1024.webp 1024w, ../assets/img/hero-1600.webp 1600w, ../assets/img/hero-1920.webp 1920w" sizes="100vw">
+          <img src="../assets/img/hero.jpg" width="1920" height="1072" alt="قاعة طعام سحاب ليلًا — نحاس وأقواس وضوء نار فوق أفق دبي" fetchpriority="high" decoding="async">
+        </picture>
+        <video class="hero__video" id="hero-video" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-src="../assets/video/hero.mp4" data-src-mobile="../assets/video/hero-720.mp4">
           <source data-src="../assets/video/hero.mp4" type="video/mp4">
         </video>
       </div>
       <div class="hero__veil" aria-hidden="true"></div>
 
       <div class="hero__content">
-        <p class="hero__eyebrow reveal-io"><span class="ar">أهلاً — مرحبًا بكم في سحاب</span></p>
+        <p class="hero__eyebrow reveal-io"><span class="ar">أهلاً</span><span class="hero__eyebrow-rule" aria-hidden="true"></span>مرحبًا بكم في سحاب</p>
         <h1 class="hero__title">
           <span class="line"><span class="line-inner">مذاق الشام الحديث</span></span>
           <span class="line"><span class="line-inner">فوق <em>السحاب.</em></span></span>
@@ -149,7 +162,11 @@
       <div class="container story__grid">
         <figure class="story__media" data-reveal>
           <div class="story__media-frame">
-            <img src="../assets/img/chef.jpg" alt="الشيف التنفيذي كريم حدّاد يضع اللمسات الأخيرة على طبق فوق نار مكشوفة" loading="lazy" decoding="async">
+            <picture>
+              <source type="image/avif" srcset="../assets/img/chef-640.avif 640w, ../assets/img/chef.avif 1000w" sizes="(min-width: 901px) 36vw, 100vw">
+              <source type="image/webp" srcset="../assets/img/chef-640.webp 640w, ../assets/img/chef.webp 1000w" sizes="(min-width: 901px) 36vw, 100vw">
+              <img src="../assets/img/chef.jpg" width="1000" height="1339" alt="الشيف التنفيذي كريم حدّاد يضع اللمسات الأخيرة على طبق فوق نار مكشوفة" loading="lazy" decoding="async">
+            </picture>
           </div>
           <figcaption>الشيف التنفيذي <b>كريم حدّاد</b> — حلب · بيروت · دبي</figcaption>
         </figure>
@@ -161,8 +178,8 @@
           <p class="body-text" data-reveal>كل طبقٍ يبدأ فوق نارٍ مكشوفة، وكل أمسيةٍ تنتهي فوق السحاب.</p>
           <ul class="story__stats" data-reveal>
             <li><span class="story__stat-num">52</span><span class="story__stat-label">طابقًا فوق المدينة</span></li>
-            <li><span class="story__stat-num">07</span><span class="story__stat-label">أطباق في قائمة التذوق</span></li>
-            <li><span class="story__stat-num">01</span><span class="story__stat-label">نار حطبٍ لا تنطفئ</span></li>
+            <li><span class="story__stat-num">7</span><span class="story__stat-label">أطباق في قائمة التذوق</span></li>
+            <li><span class="story__stat-num">1</span><span class="story__stat-label">نار حطبٍ لا تنطفئ</span></li>
           </ul>
         </div>
       </div>
@@ -179,40 +196,70 @@
 
         <div class="dishes__track" id="dishes-track">
           <article class="dish">
-            <div class="dish__media"><img src="../assets/img/dish-1.jpg" alt="حمص مدخّن بالواغيو — شاورما واغيو وصنوبر وزبدة بنية" loading="lazy" decoding="async"></div>
-            <span class="dish__num">01</span>
+            <div class="dish__media">
+              <picture>
+                <source type="image/avif" srcset="../assets/img/dish-1-640.avif 640w, ../assets/img/dish-1.avif 1000w" sizes="(min-width: 901px) 420px, 78vw">
+                <source type="image/webp" srcset="../assets/img/dish-1-640.webp 640w, ../assets/img/dish-1.webp 1000w" sizes="(min-width: 901px) 420px, 78vw">
+                <img src="../assets/img/dish-1.jpg" width="1000" height="1339" alt="حمص مدخّن بالواغيو — شاورما واغيو وصنوبر وزبدة بنية" loading="lazy" decoding="async">
+              </picture>
+            </div>
+            <span class="dish__num" aria-hidden="true">01</span>
             <h3 class="dish__name">حمص مدخّن بالواغيو</h3>
             <p class="dish__desc">حمص مدخن، شاورما واغيو، صنوبر، زبدة بنية</p>
             <span class="dish__price">145 د.إ</span>
           </article>
 
           <article class="dish">
-            <div class="dish__media"><img src="../assets/img/dish-2.jpg" alt="جمبري الفحم بزبدة حلبية — رماد ليمون وثوم بري وخبز محمص" loading="lazy" decoding="async"></div>
-            <span class="dish__num">02</span>
+            <div class="dish__media">
+              <picture>
+                <source type="image/avif" srcset="../assets/img/dish-2-640.avif 640w, ../assets/img/dish-2.avif 1000w" sizes="(min-width: 901px) 420px, 78vw">
+                <source type="image/webp" srcset="../assets/img/dish-2-640.webp 640w, ../assets/img/dish-2.webp 1000w" sizes="(min-width: 901px) 420px, 78vw">
+                <img src="../assets/img/dish-2.jpg" width="1000" height="1339" alt="جمبري الفحم بزبدة حلبية — رماد ليمون وثوم بري وخبز محمص" loading="lazy" decoding="async">
+              </picture>
+            </div>
+            <span class="dish__num" aria-hidden="true">02</span>
             <h3 class="dish__name">جمبري الفحم بزبدة حلبية</h3>
             <p class="dish__desc">رماد ليمون، ثوم بري، خبز محمص</p>
             <span class="dish__price">195 د.إ</span>
           </article>
 
           <article class="dish">
-            <div class="dish__media"><img src="../assets/img/dish-3.jpg" alt="ريش ضأن بقشرة الزعتر — فريكة ولبنة مدخنة وصلصة رمان" loading="lazy" decoding="async"></div>
-            <span class="dish__num">03</span>
+            <div class="dish__media">
+              <picture>
+                <source type="image/avif" srcset="../assets/img/dish-3-640.avif 640w, ../assets/img/dish-3.avif 1000w" sizes="(min-width: 901px) 420px, 78vw">
+                <source type="image/webp" srcset="../assets/img/dish-3-640.webp 640w, ../assets/img/dish-3.webp 1000w" sizes="(min-width: 901px) 420px, 78vw">
+                <img src="../assets/img/dish-3.jpg" width="1000" height="1339" alt="ريش ضأن بقشرة الزعتر — فريكة ولبنة مدخنة وصلصة رمان" loading="lazy" decoding="async">
+              </picture>
+            </div>
+            <span class="dish__num" aria-hidden="true">03</span>
             <h3 class="dish__name">ريش ضأن بقشرة الزعتر</h3>
             <p class="dish__desc">فريكة، لبنة مدخنة، صلصة رمان</p>
             <span class="dish__price">285 د.إ</span>
           </article>
 
           <article class="dish">
-            <div class="dish__media"><img src="../assets/img/dish-4.jpg" alt="قاروص على نار الحطب — أرز صيادية وزبدة طحينة وليمون محروق" loading="lazy" decoding="async"></div>
-            <span class="dish__num">04</span>
+            <div class="dish__media">
+              <picture>
+                <source type="image/avif" srcset="../assets/img/dish-4-640.avif 640w, ../assets/img/dish-4.avif 1000w" sizes="(min-width: 901px) 420px, 78vw">
+                <source type="image/webp" srcset="../assets/img/dish-4-640.webp 640w, ../assets/img/dish-4.webp 1000w" sizes="(min-width: 901px) 420px, 78vw">
+                <img src="../assets/img/dish-4.jpg" width="1000" height="1339" alt="قاروص على نار الحطب — أرز صيادية وزبدة طحينة وليمون محروق" loading="lazy" decoding="async">
+              </picture>
+            </div>
+            <span class="dish__num" aria-hidden="true">04</span>
             <h3 class="dish__name">قاروص على نار الحطب</h3>
             <p class="dish__desc">أرز صيادية، زبدة طحينة، ليمون محروق</p>
             <span class="dish__price">260 د.إ</span>
           </article>
 
           <article class="dish">
-            <div class="dish__media"><img src="../assets/img/dish-5.jpg" alt="كنافة بالزعفران — قشطة وبرالين فستق وماء زهر" loading="lazy" decoding="async"></div>
-            <span class="dish__num">05</span>
+            <div class="dish__media">
+              <picture>
+                <source type="image/avif" srcset="../assets/img/dish-5-640.avif 640w, ../assets/img/dish-5.avif 1000w" sizes="(min-width: 901px) 420px, 78vw">
+                <source type="image/webp" srcset="../assets/img/dish-5-640.webp 640w, ../assets/img/dish-5.webp 1000w" sizes="(min-width: 901px) 420px, 78vw">
+                <img src="../assets/img/dish-5.jpg" width="1000" height="1339" alt="كنافة بالزعفران — قشطة وبرالين فستق وماء زهر" loading="lazy" decoding="async">
+              </picture>
+            </div>
+            <span class="dish__num" aria-hidden="true">05</span>
             <h3 class="dish__name">كنافة بالزعفران</h3>
             <p class="dish__desc">قشطة، برالين فستق، ماء زهر</p>
             <span class="dish__price">95 د.إ</span>
@@ -234,13 +281,13 @@
         <p class="tasting__meta" data-reveal>سبعة أطباق · 650 د.إ للضيف · للطاولة كاملة فقط</p>
 
         <ol class="tasting__list">
-          <li data-reveal><span class="tasting__course">حمص مدخّن بالواغيو</span><span class="tasting__note">صنوبر · زبدة بنية</span></li>
-          <li data-reveal><span class="tasting__course">كبة نية</span><span class="tasting__note">ضأن مُعتّق · برغل · زيت شطة مدخن</span></li>
-          <li data-reveal><span class="tasting__course">جمبري الفحم</span><span class="tasting__note">زبدة حلبية · رماد ليمون</span></li>
-          <li data-reveal><span class="tasting__course">فريكة بالفطر البري</span><span class="tasting__note">حلومي معتّق · ثوم أسود</span></li>
-          <li data-reveal><span class="tasting__course">ريش ضأن بالزعتر</span><span class="tasting__note">لبنة مدخنة · صلصة رمان</span></li>
-          <li data-reveal><span class="tasting__course">عكاوي بعسل اللافندر</span><span class="tasting__note">تُويل سمسم</span></li>
-          <li data-reveal><span class="tasting__course">كنافة بالزعفران</span><span class="tasting__note">قشطة · فستق</span></li>
+          <li data-reveal><span class="tasting__course">حمص مدخّن بالواغيو</span><span class="tasting__leader" aria-hidden="true"></span><span class="tasting__note">صنوبر · زبدة بنية</span></li>
+          <li data-reveal><span class="tasting__course">كبة نية</span><span class="tasting__leader" aria-hidden="true"></span><span class="tasting__note">ضأن مُعتّق · برغل · زيت شطة مدخن</span></li>
+          <li data-reveal><span class="tasting__course">جمبري الفحم</span><span class="tasting__leader" aria-hidden="true"></span><span class="tasting__note">زبدة حلبية · رماد ليمون</span></li>
+          <li data-reveal><span class="tasting__course">فريكة بالفطر البري</span><span class="tasting__leader" aria-hidden="true"></span><span class="tasting__note">حلومي معتّق · ثوم أسود</span></li>
+          <li data-reveal><span class="tasting__course">ريش ضأن بالزعتر</span><span class="tasting__leader" aria-hidden="true"></span><span class="tasting__note">لبنة مدخنة · صلصة رمان</span></li>
+          <li data-reveal><span class="tasting__course">عكاوي بعسل اللافندر</span><span class="tasting__leader" aria-hidden="true"></span><span class="tasting__note">تُويل سمسم</span></li>
+          <li data-reveal><span class="tasting__course">كنافة بالزعفران</span><span class="tasting__leader" aria-hidden="true"></span><span class="tasting__note">قشطة · فستق</span></li>
         </ol>
 
         <p class="tasting__pairing" data-reveal>توليفة مشروبات +300 د.إ · توليفة غير كحولية +180 د.إ</p>
@@ -256,19 +303,43 @@
 
         <div class="space__grid">
           <figure class="space__fig space__fig--a" data-reveal>
-            <div class="space__frame"><img src="../assets/img/interior-1.jpg" alt="قاعة الطعام الرئيسية — أقواس وظلال مشربية على الطاولات" loading="lazy" decoding="async" data-speed="0.9"></div>
+            <div class="space__frame">
+              <picture>
+                <source type="image/avif" srcset="../assets/img/interior-1-640.avif 640w, ../assets/img/interior-1-1024.avif 1024w, ../assets/img/interior-1.avif 1400w" sizes="(min-width: 901px) 55vw, 100vw">
+                <source type="image/webp" srcset="../assets/img/interior-1-640.webp 640w, ../assets/img/interior-1-1024.webp 1024w, ../assets/img/interior-1.webp 1400w" sizes="(min-width: 901px) 55vw, 100vw">
+                <img src="../assets/img/interior-1.jpg" width="1400" height="1045" alt="قاعة الطعام الرئيسية — أقواس وظلال مشربية على الطاولات" loading="lazy" decoding="async" data-speed="0.9">
+              </picture>
+            </div>
             <figcaption><i>01</i>قاعة الطعام — ظلال المشربية</figcaption>
           </figure>
           <figure class="space__fig space__fig--b" data-reveal>
-            <div class="space__frame"><img src="../assets/img/interior-2.jpg" alt="نافذة من الأرض إلى السقف تطل على أفق داون تاون دبي عند الغسق" loading="lazy" decoding="async" data-speed="1.15"></div>
+            <div class="space__frame">
+              <picture>
+                <source type="image/avif" srcset="../assets/img/interior-2-640.avif 640w, ../assets/img/interior-2-1024.avif 1024w, ../assets/img/interior-2.avif 1400w" sizes="(min-width: 901px) 28vw, 100vw">
+                <source type="image/webp" srcset="../assets/img/interior-2-640.webp 640w, ../assets/img/interior-2-1024.webp 1024w, ../assets/img/interior-2.webp 1400w" sizes="(min-width: 901px) 28vw, 100vw">
+                <img src="../assets/img/interior-2.jpg" width="1400" height="1875" alt="نافذة من الأرض إلى السقف تطل على أفق داون تاون دبي عند الغسق" loading="lazy" decoding="async" data-speed="1.15">
+              </picture>
+            </div>
             <figcaption><i>02</i>الإطلالة — داون تاون من الطابق 52</figcaption>
           </figure>
           <figure class="space__fig space__fig--c" data-reveal>
-            <div class="space__frame"><img src="../assets/img/interior-3.jpg" alt="كاونتر النار — ثمانية مقاعد حول نار الحطب المكشوفة" loading="lazy" decoding="async" data-speed="1.05"></div>
+            <div class="space__frame">
+              <picture>
+                <source type="image/avif" srcset="../assets/img/interior-3-640.avif 640w, ../assets/img/interior-3-1024.avif 1024w, ../assets/img/interior-3.avif 1400w" sizes="(min-width: 901px) 36vw, 100vw">
+                <source type="image/webp" srcset="../assets/img/interior-3-640.webp 640w, ../assets/img/interior-3-1024.webp 1024w, ../assets/img/interior-3.webp 1400w" sizes="(min-width: 901px) 36vw, 100vw">
+                <img src="../assets/img/interior-3.jpg" width="1400" height="1875" alt="كاونتر النار — ثمانية مقاعد حول نار الحطب المكشوفة" loading="lazy" decoding="async" data-speed="1.05">
+              </picture>
+            </div>
             <figcaption><i>03</i>كاونتر النار — ثمانية مقاعد وشعلة واحدة</figcaption>
           </figure>
           <figure class="space__fig space__fig--d" data-reveal>
-            <div class="space__frame"><img src="../assets/img/interior-4.jpg" alt="نحاس وجوز وضوء نار — تفاصيل من البار" loading="lazy" decoding="async" data-speed="0.95"></div>
+            <div class="space__frame">
+              <picture>
+                <source type="image/avif" srcset="../assets/img/interior-4-640.avif 640w, ../assets/img/interior-4-1024.avif 1024w, ../assets/img/interior-4.avif 1400w" sizes="(min-width: 901px) 36vw, 100vw">
+                <source type="image/webp" srcset="../assets/img/interior-4-640.webp 640w, ../assets/img/interior-4-1024.webp 1024w, ../assets/img/interior-4.webp 1400w" sizes="(min-width: 901px) 36vw, 100vw">
+                <img src="../assets/img/interior-4.jpg" width="1400" height="1045" alt="نحاس وجوز وضوء نار — تفاصيل من البار" loading="lazy" decoding="async" data-speed="0.95">
+              </picture>
+            </div>
             <figcaption><i>04</i>نحاسٌ وجوز وضوء نار</figcaption>
           </figure>
         </div>
@@ -280,16 +351,16 @@
       <div class="container">
         <p class="eyebrow eyebrow--center" data-reveal>قالوا عنا</p>
         <h2 class="h2 h2--center" data-reveal>ماذا تقول دبي؟</h2>
-        <div class="voices__grid">
-          <blockquote class="voice" data-reveal>
+        <div class="voices__stage" aria-roledescription="carousel" aria-label="قالوا عنا" data-reveal>
+          <blockquote class="voice">
             <p>«رسالة حبٍّ إلى الشام، كُتبت على بُعد اثنين وخمسين طابقًا فوق المدينة.»</p>
             <cite>تايم آوت دبي</cite>
           </blockquote>
-          <blockquote class="voice" data-reveal>
+          <blockquote class="voice">
             <p>«الافتتاح الأكثر إثارةً هذا الموسم. احجزوا قبل الجميع.»</p>
             <cite>واتس أون دبي</cite>
           </blockquote>
-          <blockquote class="voice" data-reveal>
+          <blockquote class="voice">
             <p>«كنافة تستحق مشوار المصعد وحدها.»</p>
             <cite>جورميه ترافلر</cite>
           </blockquote>
@@ -305,7 +376,7 @@
           <h2 class="h2" data-reveal>احجز<br>أمسيتك.</h2>
           <dl class="reserve__details" data-reveal>
             <div><dt>العنوان</dt><dd>سكاي فيو تاور، الطابق 52<br>داون تاون دبي، الإمارات</dd></div>
-            <div><dt>الهاتف</dt><dd><a href="tel:+97143217890">+971 4 321 7890</a></dd></div>
+            <div><dt>الهاتف</dt><dd><a href="tel:+97143217890"><bdi dir="ltr">+971 4 321 7890</bdi></a></dd></div>
             <div><dt>البريد</dt><dd><a href="mailto:reserve@sahabdubai.ae">reserve@sahabdubai.ae</a></dd></div>
             <div><dt>الساعات</dt><dd>الثلاثاء – الأحد<br>6:30 مساءً – 12:00 منتصف الليل</dd></div>
             <div><dt>الزي</dt><dd>أنيق رسمي</dd></div>
@@ -342,7 +413,7 @@
             </select>
           </div>
           <button type="submit" class="btn btn--solid btn--full magnetic"><span>اطلب طاولة</span></button>
-          <p class="reserve__success" id="reserve-success" hidden><span class="ar">شكرًا</span> — استلمنا طلبك، وسنؤكد برسالة نصية خلال ساعة.</p>
+          <p class="reserve__success" id="reserve-success" aria-live="polite" hidden><span class="ar">شكرًا</span> — استلمنا طلبك، وسنؤكد برسالة نصية خلال ساعة.</p>
         </form>
       </div>
     </section>
@@ -363,7 +434,7 @@
           </div>
           <div class="footer__col">
             <h4>تواصل</h4>
-            <p><a href="tel:+97143217890">+971 4 321 7890</a><br><a href="mailto:reserve@sahabdubai.ae">reserve@sahabdubai.ae</a></p>
+            <p><a href="tel:+97143217890"><bdi dir="ltr">+971 4 321 7890</bdi></a><br><a href="mailto:reserve@sahabdubai.ae">reserve@sahabdubai.ae</a></p>
           </div>
           <div class="footer__col">
             <h4>تابعنا</h4>
@@ -381,9 +452,10 @@
 
   </main>
 
+  <!-- Initial JS budget: gsap + ScrollTrigger + main.js only.
+       SplitText, lenis and hero-gl are lazy-loaded by main.js after boot. -->
   <script src="../vendor/gsap.min.js"></script>
   <script src="../vendor/ScrollTrigger.min.js"></script>
-  <script src="../vendor/lenis.min.js"></script>
   <script src="../js/main.js"></script>
 </body>
 </html>

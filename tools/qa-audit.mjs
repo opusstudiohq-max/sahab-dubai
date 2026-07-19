@@ -8,6 +8,7 @@
  */
 import { chromium } from 'playwright-core';
 import fs from 'node:fs';
+import path from 'node:path';
 
 const EXE = process.env.CHROME_EXE || 'C:/Users/el-bostan/AppData/Local/ms-playwright/chromium-1228/chrome-win64/chrome.exe';
 const BASE = process.env.BASE_URL || 'http://127.0.0.1:8123';
@@ -32,6 +33,19 @@ for (const page of PAGES) {
     const ctx = await browser.newContext({
       viewport: { width: w, height: h }, isMobile, hasTouch: isMobile, deviceScaleFactor: 1,
       userAgent: isMobile ? 'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 Chrome/125.0.0.0 Mobile Safari/537.36' : undefined,
+    });
+    // LCP/CLS smoke observers — installed before any navigation
+    await ctx.addInitScript(() => {
+      window.__lcp = 0; window.__cls = 0;
+      try {
+        new PerformanceObserver((list) => {
+          const entries = list.getEntries();
+          if (entries.length) window.__lcp = entries[entries.length - 1].startTime;
+        }).observe({ type: 'largest-contentful-paint', buffered: true });
+        new PerformanceObserver((list) => {
+          for (const e of list.getEntries()) if (!e.hadRecentInput) window.__cls += e.value;
+        }).observe({ type: 'layout-shift', buffered: true });
+      } catch (e) { /* PerformanceObserver unsupported — recorded as no-entry */ }
     });
     const p = await ctx.newPage();
     const errors = [];
@@ -67,6 +81,15 @@ for (const page of PAGES) {
     });
     check(`${tag} tap-targets>=40px`, small.length === 0, small.join(' | '));
 
+    // 4b) noscript present — the page must never depend on JS to show content
+    const hasNoscript = await p.evaluate(() => !!document.querySelector('noscript'));
+    check(`${tag} noscript-present`, hasNoscript, hasNoscript ? '' : 'no <noscript> element in DOM');
+
+    // 4c) LCP/CLS smoke bounds (localhost = fast; these are tripwires, not SLOs)
+    const vitals = await p.evaluate(() => ({ lcp: window.__lcp || 0, cls: window.__cls || 0 }));
+    check(`${tag} lcp<=2500ms`, vitals.lcp === 0 || vitals.lcp <= 2500, vitals.lcp ? `${Math.round(vitals.lcp)}ms` : 'no-lcp-entry');
+    check(`${tag} cls<=0.1`, vitals.cls <= 0.1, `cls=${vitals.cls.toFixed(4)}`);
+
     // 5) AR page checks
     if (page === '/ar/') {
       const attrs = await p.evaluate(() => ({ dir: document.documentElement.dir, lang: document.documentElement.lang }));
@@ -84,6 +107,18 @@ for (const page of PAGES) {
         return bad.slice(0, 8);
       });
       check(`${tag} no-ar-letterspacing`, spacing.length === 0, spacing.join(' | '));
+
+      // phone bidi: both tel: anchors isolated LTR (<bdi> wrapper or dir="ltr")
+      const bidi = await p.evaluate(() => {
+        const spots = ['.reserve__details a[href^="tel:"]', '.footer a[href^="tel:"]'];
+        return spots.map((s) => {
+          const a = document.querySelector(s);
+          if (!a) return { spot: s, ok: false, why: 'anchor missing' };
+          const ok = !!a.querySelector('bdi') || !!a.closest('bdi') || a.getAttribute('dir') === 'ltr' || !!a.closest('[dir="ltr"]');
+          return { spot: s, ok, why: ok ? '' : 'no bidi isolation' };
+        });
+      });
+      check(`${tag} ar-phone-bidi`, bidi.every((b) => b.ok), bidi.filter((b) => !b.ok).map((b) => `${b.spot}:${b.why}`).join(' | ') || 'both tel: anchors isolated');
     }
 
     // screenshots (smallest size only, all sections + menu)
@@ -101,11 +136,76 @@ for (const page of PAGES) {
       await p.waitForTimeout(800);
       await p.screenshot({ path: `tools/shots/${prefix}-menu-open.png` });
     }
+
+    // 6) reservation form — success state in the page language (first viewport only; last check on this context)
+    if (label === SIZES[0][0]) {
+      try {
+        await p.keyboard.press('Escape'); // close the menu the screenshot pass left open
+        await p.waitForTimeout(700);
+        await p.fill('#rf-name', 'QA Test');
+        await p.fill('#rf-phone', '+971501234567');
+        const tomorrow = await p.evaluate(() => { const d = new Date(Date.now() + 864e5); return d.toISOString().slice(0, 10); });
+        await p.fill('#rf-date', tomorrow);
+        await p.fill('#rf-time', '20:00');
+        await p.selectOption('#rf-guests', { index: 1 });
+        await p.evaluate(() => document.getElementById('reserve').scrollIntoView());
+        await p.waitForTimeout(900); // let the fixed mobile CTA bow out of the click path
+        await p.click('#reservation-form button[type="submit"]');
+        await p.waitForTimeout(2200);
+        const res = await p.evaluate(() => {
+          const s = document.getElementById('reserve-success');
+          const btn = document.querySelector('#reservation-form button[type="submit"]');
+          const visible = !!(s && !s.hidden && s.getBoundingClientRect().height > 0 && getComputedStyle(s).visibility !== 'hidden');
+          return { visible, btnText: btn ? btn.textContent.trim() : '' };
+        });
+        const langOK = page === '/ar/' ? res.btnText.includes('تم') : res.btnText.includes('Sent');
+        check(`${tag} form-success-localized`, res.visible && langOK, JSON.stringify(res));
+      } catch (e) {
+        check(`${tag} form-success-localized`, false, String(e).slice(0, 200));
+      }
+    }
     await ctx.close();
   }
 }
 
 await browser.close();
+
+/* ── Weight budgets (disk reads, run once — not per viewport) ── */
+const sizeOf = (rel) => { try { return fs.statSync(rel).size; } catch { return 0; } };
+
+// Initial JS = the <script src> tags shipped in each HTML file (≤160KB/page)
+const JS_BUDGET = 160 * 1024;
+for (const page of PAGES) {
+  const htmlRel = page === '/' ? 'index.html' : 'ar/index.html';
+  const html = fs.readFileSync(htmlRel, 'utf8');
+  const srcs = [...html.matchAll(/<script\b[^>]*\bsrc="([^"]+)"/g)].map((m) => m[1]);
+  const baseDir = path.dirname(htmlRel);
+  const parts = srcs.map((s) => ({ src: s, bytes: sizeOf(path.join(baseDir, s)) }));
+  const sum = parts.reduce((a, b) => a + b.bytes, 0);
+  check(`budget initial-js ${page} <=160KB`, sum > 0 && sum <= JS_BUDGET,
+    `${sum.toLocaleString('en-US')} B (${parts.map((x) => `${x.src}=${x.bytes}`).join(', ')})`);
+}
+
+// info-only: everything JS on disk (initial + lazy chain)
+{
+  const vendor = fs.readdirSync('vendor').filter((f) => f.endsWith('.min.js')).map((f) => `vendor/${f}`);
+  const js = fs.readdirSync('js').filter((f) => f.endsWith('.js')).map((f) => `js/${f}`);
+  const total = [...vendor, ...js].reduce((a, f) => a + sizeOf(f), 0);
+  console.log(`INFO  lazy+initial JS on disk: ${total.toLocaleString('en-US')} B (${[...vendor, ...js].join(', ')})`);
+}
+
+// Hero video variants
+const vid = sizeOf('assets/video/hero.mp4');
+check('budget hero.mp4 <=6MB', vid > 0 && vid <= 6 * 1024 * 1024, `${(vid / 1048576).toFixed(2)} MB`);
+const vid720 = sizeOf('assets/video/hero-720.mp4');
+check('budget hero-720.mp4 <=2MB', vid720 > 0 && vid720 <= 2 * 1024 * 1024, `${(vid720 / 1048576).toFixed(2)} MB`);
+
+// Hero poster at mobile width — the file the 360px <picture> actually selects
+const enHtml = fs.readFileSync('index.html', 'utf8');
+const srcset640 = /hero-640\.avif\s+640w/.test(enHtml);
+const poster = sizeOf('assets/img/hero-640.avif');
+check('budget hero-640.avif <=150KB', poster > 0 && poster <= 150 * 1024 && srcset640,
+  `${(poster / 1024).toFixed(1)} KB${srcset640 ? '' : ' · WARNING: hero-640.avif 640w not found in index.html srcset'}`);
 
 let fail = 0;
 for (const r of results) {
